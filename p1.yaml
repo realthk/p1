@@ -1,0 +1,163 @@
+esphome:
+  name: p1-sensor
+  platform: ESP8266
+#  board: nodemcuv2
+  board: d1_mini
+  name_add_mac_suffix: false  
+  esp8266_restore_from_flash: true
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  fast_connect: true
+
+  manual_ip:
+    static_ip: 192.168.8.97
+    gateway: 192.168.8.1
+    subnet: 255.255.255.0
+
+  ap:
+    ssid: "p1-sensor"
+    password: !secret wifi_password  
+
+api:
+   #password: !secret api_password  
+#   encryption:
+#    key: "K2qZxaca8n+VDFVT/qDS3RDoprBIcEqkPyahMAkb334="
+
+captive_portal:
+
+mqtt:
+  broker: 192.168.8.123 #your mqtt broker address
+  port: 1883  
+  username: !secret mqtt_username #your mqtt user name
+  password: !secret mqtt_password #your mqtt user pass    
+  topic_prefix: openhab/p1
+  discovery: False
+  discover_ip: False  
+       
+ota:
+   platform: esphome  
+   password: !secret ota_password
+
+web_server:
+  port: 80
+
+safe_mode: 
+
+logger:
+  baud_rate: 0
+  level: INFO
+
+uart:
+  rx_pin:
+    number: GPIO3
+  baud_rate: 115200
+  rx_buffer_size: 3000  
+
+dsmr:  
+  max_telegram_length: 3000
+  id: dsmr_instance
+  crc_check: false
+  request_pin: D5
+  request_interval: 20s  
+  
+sensor:
+  - platform: dsmr
+    energy_delivered_tariff1:
+      name: energy_delivered_tariff1
+    energy_delivered_tariff2:
+      name: energy_delivered_tariff2
+    energy_returned_tariff1:
+      name: energy_returned_tariff1
+    energy_returned_tariff2:
+      name: energy_returned_tariff2
+      accuracy_decimals: 3
+
+    power_delivered:
+      name: power_delivered
+      device_class: power
+      accuracy_decimals: 3
+      id: power_delivered
+#      on_value:
+#        - script.execute: update_power_balance
+    power_returned:
+      name: power_returned
+      device_class: power
+      accuracy_decimals: 3
+      id: power_returned
+#      on_value:
+#        - script.execute: update_power_balance      
+
+    power_delivered_l1:
+      name: power_delivered_l1
+      device_class: power
+    power_delivered_l2:
+      name: power_delivered_l2 
+      device_class: power
+    power_delivered_l3:
+      name: power_delivered_l3 
+      device_class: power
+    power_returned_l1:
+      name: power_returned_l1
+      device_class: power
+    power_returned_l2:
+      name: power_returned_l2
+      device_class: power
+    power_returned_l3:
+      name: power_returned_l3
+      device_class: power
+
+    voltage_l1:
+      name: voltage_l1  
+    voltage_l2:
+      name: voltage_l2
+    voltage_l3:
+      name: voltage_l3  
+    current_l1:
+      name: current_l1
+    current_l2:
+      name: current_l2
+    current_l3:
+      name: current_l3
+
+  - platform: uptime
+    name: "SlimmeLezer üzemidő"
+    device_class: duration
+
+#  - platform: template
+#    name: "Pillanatnyi teljesítmény - hatásos eredő"
+#    id: power_balance
+#    unit_of_measurement: kW
+#    state_class: measurement
+ #   device_class: power
+ #   accuracy_decimals: 3      
+
+  - platform: wifi_signal
+    name: "P1 Wi-Fi jel"
+    update_interval: 60s                 
+
+text_sensor:
+  - platform: dsmr
+    identification:
+      name: "DSMR Identification"
+#    p1_version:
+#      name: "DSMR Version"      
+    timestamp:
+      name: "Timestamp"
+#    message_short:
+#      name: "Message short"       
+    message_long:
+      name: "Message long"
+#    electricity_failure_log:
+#      name: electricity_failure_log
+  - platform: dsmr
+    telegram:
+      name: "telegram"
+
+#script:
+#  - id: update_power_balance
+#    mode: single
+#    then:
+#      - lambda: |-
+#          id(power_balance).publish_state(id(power_delivered).state - id(power_returned).state);      
