@@ -240,6 +240,8 @@ namespace dsmr
       static constexpr char MJ[] = "MJ";
       static constexpr char kvar[] = "kvar";
       static constexpr char kvarh[] = "kvarh";
+      static constexpr char var[] = "var";
+      static constexpr char varh[] = "varh";
       static constexpr char kVA[] = "kVA";
       static constexpr char VA[] = "VA";
       static constexpr char s[] = "s";
@@ -281,6 +283,7 @@ namespace dsmr
     /* Meter Reading electricity delivered to client (Special for Lux) in 0,001 kWh */
     /* TODO: by OBIS 1-0:1.8.0.255 IEC 62056 it should be Positive active energy (A+) total [kWh], should we rename it? */
     DEFINE_FIELD(energy_delivered_lux, FixedValue, ObisId(1, 0, 1, 8, 0), FixedField, units::kWh, units::Wh);
+    DEFINE_FIELD(energy_delivered, FixedValue, ObisId(1, 0, 1, 8, 0), FixedField, units::kWh, units::Wh);
     /* Meter Reading electricity delivered to client (Tariff 1) in 0,001 kWh */
     DEFINE_FIELD(energy_delivered_tariff1, FixedValue, ObisId(1, 0, 1, 8, 1), FixedField, units::kWh, units::Wh);
     /* Meter Reading electricity delivered to client (Tariff 2) in 0,001 kWh */
@@ -292,6 +295,7 @@ namespace dsmr
     /* Meter Reading electricity delivered by client (Special for Lux) in 0,001 kWh */
     /* TODO: by OBIS 1-0:2.8.0.255 IEC 62056 it should be Negative active energy (A+) total [kWh], should we rename it? */
     DEFINE_FIELD(energy_returned_lux, FixedValue, ObisId(1, 0, 2, 8, 0), FixedField, units::kWh, units::Wh);
+    DEFINE_FIELD(energy_returned, FixedValue, ObisId(1, 0, 2, 8, 0), FixedField, units::kWh, units::Wh);
     /* Meter Reading electricity delivered by client (Tariff 1) in 0,001 kWh */
     DEFINE_FIELD(energy_returned_tariff1, FixedValue, ObisId(1, 0, 2, 8, 1), FixedField, units::kWh, units::Wh);
     /* Meter Reading electricity delivered by client (Tariff 2) in 0,001 kWh */
@@ -335,10 +339,22 @@ namespace dsmr
     /* Meter Reading electricity delivered by client (Tariff 2) in 0,001 kWh */
     DEFINE_FIELD(energy_returned_tariff2_ch, FixedValue, ObisId(1, 1, 2, 8, 2), FixedField, units::kWh, units::Wh);
 
+    /* Absolute active energy (A+) total [kWh] */
+    DEFINE_FIELD(energy_absolute, FixedValue, ObisId(1, 0, 15, 8, 0), FixedField, units::kWh, units::Wh);
+    /* Absolute active energy (A+) in tariff T1 [kWh] */
+    DEFINE_FIELD(energy_absolute_tariff1, FixedValue, ObisId(1, 0, 15, 8, 1), FixedField, units::kWh, units::Wh);
+    /* Absolute active energy (A+) in tariff T2 [kWh] */
+    DEFINE_FIELD(energy_absolute_tariff2, FixedValue, ObisId(1, 0, 15, 8, 2), FixedField, units::kWh, units::Wh);
+    /* Absolute active energy (A+) in tariff T3 [kWh] */
+    DEFINE_FIELD(energy_absolute_tariff3, FixedValue, ObisId(1, 0, 15, 8, 3), FixedField, units::kWh, units::Wh);
+    /* Absolute active energy (A+) in tariff T4 [kWh] */
+    DEFINE_FIELD(energy_absolute_tariff4, FixedValue, ObisId(1, 0, 15, 8, 4), FixedField, units::kWh, units::Wh);
+
     /* Tariff indicator electricity. The tariff indicator can also be used
  * to switch tariff dependent loads e.g boilers. This is the
  * responsibility of the P1 user */
     DEFINE_FIELD(electricity_tariff, String, ObisId(0, 0, 96, 14, 0), StringField, 4, 4);
+    DEFINE_FIELD(electricity_tariff_hu, uint8_t, ObisId(0, 0, 96, 14, 0), IntField, units::none);    
 
     /* Actual electricity power delivered (+P) in 1 Watt resolution */
     DEFINE_FIELD(power_delivered, FixedValue, ObisId(1, 0, 1, 7, 0), FixedField, units::kW, units::W);
@@ -359,7 +375,38 @@ namespace dsmr
     /* Actual electricity power received (-P) in 1 Watt resolution */
     DEFINE_FIELD(power_returned_ch, FixedValue, ObisId(1, 1, 2, 7, 0), FixedField, units::kW, units::W);
 
+    /* 5.7.0(@1,Reactive power QI,kvar,pwr_reac_q1,3 [kvarh] */
+    DEFINE_FIELD(reactive_power_qi, FixedValue, ObisId(1, 0, 5, 7, 0), FixedField, units::kvar, units::var);
+    /* 6.7.0(@1,Reactive power QII,kvar,pwr_reac_q2,3 */
+    DEFINE_FIELD(reactive_power_qii, FixedValue, ObisId(1, 0, 6, 7, 0), FixedField, units::kvar, units::var);
+    /* 7.7.0(@1,Reactive power QIII,kvar,pwr_reac_q3,3 */
+    DEFINE_FIELD(reactive_power_qiii, FixedValue, ObisId(1, 0, 7, 7, 0), FixedField, units::kvar, units::var);
+    /* 8.7.0(@1,Reactive power QIV,kvar,pwr_reac_q4,3 */
+    DEFINE_FIELD(reactive_power_qiv, FixedValue, ObisId(1, 0, 8, 7, 0), FixedField, units::kvar, units::var);
+
+    /* 5.8.0(@1,Reactive energy QI,kvarh,nrg_reac_q1,3 [kvarh] */
+    DEFINE_FIELD(reactive_energy_qi, FixedValue, ObisId(1, 0, 5, 8, 0), FixedField, units::kvarh, units::varh);
+    /* 6.8.0(@1,Reactive energy QII,kvarh,nrg_reac_q2,3 [kvarh] */
+    DEFINE_FIELD(reactive_energy_qii, FixedValue, ObisId(1, 0, 6, 8, 0), FixedField, units::kvarh, units::varh);
+    /* 7.8.0(@1,Reactive energy QIII,kvarh,nrg_reac_q3,3 [kvarh] */
+    DEFINE_FIELD(reactive_energy_qiii, FixedValue, ObisId(1, 0, 7, 8, 0), FixedField, units::kvarh, units::varh);
+    /* 8.8.0(@1,Reactive energy QIV,kvarh,nrg_reac_q4,3 [kvarh] */
+    DEFINE_FIELD(reactive_energy_qiv, FixedValue, ObisId(1, 0, 8, 8, 0), FixedField, units::kvarh, units::varh);
+
+    /* 13.7.0	Instantaneous power factor */
+    DEFINE_FIELD(instantaneous_power_factor, FixedValue, ObisId(1, 0, 13, 7, 0), FixedField, units::none, units::none);
+    /* 33.7.0	Instantaneous power factor L1 */
+    DEFINE_FIELD(instantaneous_power_factor_l1, FixedValue, ObisId(1, 0, 33, 7, 0), FixedField, units::none, units::none);
+    /* 53.7.0	Instantaneous power factor L2 */
+    DEFINE_FIELD(instantaneous_power_factor_l2, FixedValue, ObisId(1, 0, 53, 7, 0), FixedField, units::none, units::none);
+    /* 73.7.0	Instantaneous power factor L3 */
+    DEFINE_FIELD(instantaneous_power_factor_l3, FixedValue, ObisId(1, 0, 73, 7, 0), FixedField, units::none, units::none);
+
     /* The actual threshold Electricity in kW. Removed in 4.0.7 / 4.2.2 / 5.0 */
+    /* The actual threshold Electricity in kW. 17.0.0 - Removed in 4.0.7 / 4.2.2 / 5.0 */
+    DEFINE_FIELD(electricity_threshold_l1, FixedValue, ObisId(1, 0, 31, 4, 0), FixedField, units::A, units::mA);
+    DEFINE_FIELD(electricity_threshold_l2, FixedValue, ObisId(1, 0, 51, 4, 0), FixedField, units::A, units::mA);
+    DEFINE_FIELD(electricity_threshold_l3, FixedValue, ObisId(1, 0, 71, 4, 0), FixedField, units::A, units::mA);
     DEFINE_FIELD(electricity_threshold, FixedValue, ObisId(0, 0, 17, 0, 0), FixedField, units::kW, units::W);
 
     /* Switch position Electricity (in/out/enabled). Removed in 4.0.7 / 4.2.2 / 5.0 */

@@ -54,6 +54,8 @@ constexpr char units::GJ[];
 constexpr char units::MJ[];
 constexpr char units::kvar[];
 constexpr char units::kvarh[];
+constexpr char units::var[];
+constexpr char units::varh[];
 constexpr char units::kVA[];
 constexpr char units::VA[];
 constexpr char units::s[];

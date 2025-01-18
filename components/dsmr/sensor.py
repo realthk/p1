@@ -108,7 +108,7 @@ CONFIG_SCHEMA = cv.Schema(
             unit_of_measurement=UNIT_KILOVOLT_AMPS_REACTIVE_HOURS,
             accuracy_decimals=1,
         ),
-        cv.Optional("electricity_tariff"): sensor.sensor_schema(
+        cv.Optional("electricity_tariff_hu"): sensor.sensor_schema(
             accuracy_decimals=0,
         ),
         cv.Optional("power_delivered"): sensor.sensor_schema(
@@ -131,21 +131,21 @@ CONFIG_SCHEMA = cv.Schema(
              state_class=STATE_CLASS_MEASUREMENT,
          ),
          cv.Optional("reactive_power_qii"): sensor.sensor_schema(
-             unit_of_measurement=UNIT_KILOVOLT_AMPS_REACTIVE,
+             unit_of_measurement=UNIT_VOLT_AMPS_REACTIVE,
              icon=ICON_EMPTY,
              accuracy_decimals=3,
              device_class=DEVICE_CLASS_POWER,
              state_class=STATE_CLASS_MEASUREMENT,
          ),
          cv.Optional("reactive_power_qiii"): sensor.sensor_schema(
-             unit_of_measurement=UNIT_KILOVOLT_AMPS_REACTIVE,
+             unit_of_measurement=UNIT_VOLT_AMPS_REACTIVE,
              icon=ICON_EMPTY,
              accuracy_decimals=3,
              device_class=DEVICE_CLASS_POWER,
              state_class=STATE_CLASS_MEASUREMENT,
          ),
          cv.Optional("reactive_power_qiv"): sensor.sensor_schema(
-             unit_of_measurement=UNIT_KILOVOLT_AMPS_REACTIVE,
+             unit_of_measurement=UNIT_VOLT_AMPS_REACTIVE,
              icon=ICON_EMPTY,
              accuracy_decimals=3,
              device_class=DEVICE_CLASS_POWER,
