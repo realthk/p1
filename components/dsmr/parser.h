@@ -188,6 +188,9 @@ namespace dsmr
       // Parse integer part
       while (num_end < end && !strchr("*.)", *num_end))
       {
+        if (*num_end == '-') {
+          continue;
+        }
         if (*num_end < '0' || *num_end > '9')
           return res.fail(INVALID_NUMBER, num_end);
         value *= 10;
