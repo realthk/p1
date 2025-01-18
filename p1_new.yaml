@@ -54,7 +54,7 @@ safe_mode:
 
 logger:
   baud_rate: 0
-  level: INFO
+  level: WARN
 
 uart:
   rx_pin:
@@ -71,9 +71,9 @@ dsmr:
 
 sensor:
   - platform: dsmr
-#    energy_delivered:
-#      name: energy_delivered
-#      accuracy_decimals: 3
+    energy_delivered:
+      name: energy_delivered
+      accuracy_decimals: 3
     energy_delivered_tariff1:
       name: energy_delivered_tariff1
       accuracy_decimals: 3
@@ -81,9 +81,9 @@ sensor:
       name: energy_delivered_tariff2
       accuracy_decimals: 3
 
-#    energy_returned:
-#      name: energy_returned
-#      accuracy_decimals: 3      
+    energy_returned:
+      name: energy_returned
+      accuracy_decimals: 3      
     energy_returned_tariff1:
       name: energy_returned_tariff1
       accuracy_decimals: 3
@@ -91,11 +91,11 @@ sensor:
       name: energy_returned_tariff2
       accuracy_decimals: 3
 
-#    electricity_tariff:
-#      name: "Aktuális tarifa"
+    electricity_tariff_hu:
+      name: electricity_tariff_hu
 
-#    energy_absolute:
-#      name: "Összes hatásos energia - vételezett és betáplált"      
+    energy_absolute:
+      name: energy_absolute
 
     power_delivered:
       name: power_delivered
@@ -140,31 +140,31 @@ sensor:
     current_l3:
       name: current_l3
 
-#    instantaneous_power_factor:
-#      name: "Teljesítménytényező - eredő"
-#      device_class: power_factor
-#    instantaneous_power_factor_l1:
-#      name: "Teljesítménytényező L1"
-#      device_class: power_factor
-#    instantaneous_power_factor_l2:
-#      name: "Teljesítménytényező L2"
-#      device_class: power_factor
-#    instantaneous_power_factor_l3:
-#      name: "Teljesítménytényező L3"
-#      device_class: power_factor
+    instantaneous_power_factor:
+      name: instantaneous_power_factor
+      device_class: power_factor
+    instantaneous_power_factor_l1:
+      name: instantaneous_power_factor_l1
+      device_class: power_factor
+    instantaneous_power_factor_l2:
+      name: instantaneous_power_factor_l2
+      device_class: power_factor
+    instantaneous_power_factor_l3:
+      name: instantaneous_power_factor_l3
+      device_class: power_factor
 
-#    reactive_power_qi:
-#      name: "Pillanatnyi teljesítmény - meddő (QI)"
-#      device_class: reactive_power
-#    reactive_power_qii:
-#      name: "Pillanatnyi teljesítmény - meddő (QII)"
-#      device_class: reactive_power
-#    reactive_power_qiii:
-#      name: "Pillanatnyi teljesítmény - meddő (QIII)"
-#      device_class: reactive_power
-#    reactive_power_qiv:
-#      name: "Pillanatnyi teljesítmény - meddő (QIV)"
-#      device_class: reactive_power
+    reactive_power_qi:
+      name: reactive_power_qi
+      device_class: reactive_power
+    reactive_power_qii:
+      name: reactive_power_qii
+      device_class: reactive_power
+    reactive_power_qiii:
+      name: reactive_power_qiii
+      device_class: reactive_power
+    reactive_power_qiv:
+      name: reactive_power_qiv
+      device_class: reactive_power
 
 #    energy_positive_reactive:
 #      name: "Meddő energia - vételezett (+R)"
@@ -180,36 +180,39 @@ sensor:
 #      name: "Meddő energia (QIV)"
 
    # Mérőóra áramkorlátozó felügyeletének beállítási értéke
-#    electricity_threshold_l1:
-#      name: "Áramkorlátozó felügyelet küszöbértéke L1"
-#    electricity_threshold_l2:
-#      name: "Áramkorlátozó felügyelet küszöbértéke L2"
-#    electricity_threshold_l3:
-#      name: "Áramkorlátozó felügyelet küszöbértéke L3"
+    electricity_threshold_l1:
+      name: electricity_threshold_l1
+    electricity_threshold_l2:
+      name: electricity_threshold_l2
+    electricity_threshold_l3:
+      name: electricity_threshold_l3
 
-#    electricity_threshold:
-#      name: "Áramkorlátozó küszöbértéke"
+    electricity_threshold:
+      name: electricity_threshold
 
   - platform: uptime
-    name: "SlimmeLezer üzemidő"
+    name: "slimmelezer_uptime"
     device_class: duration
 
   - platform: wifi_signal
-    name: "P1 Wi-Fi jel"
+    name: wifi_signal
     update_interval: 60s    
 
 text_sensor:
   - platform: dsmr
     identification:
       name: "DSMR Identification"
+
     timestamp:
       name: "Timestamp"
 #    message_short:
 #      name: "Message short"       
     message_long:
       name: "Message long"
+
 #    breaker_status:
-#      name: "Megszakító státusz"
+#      name: breaker_status
+
 #    breaker_status_b:
-#      name: "Megszakító státusz"
+#      name: breaker_status_b
 

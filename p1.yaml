@@ -6,6 +6,12 @@ esphome:
   name_add_mac_suffix: false  
   esp8266_restore_from_flash: true
 
+external_components:
+  - source:
+      type: local
+      path: ./components/
+    components: [dsmr]
+
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
@@ -64,6 +70,9 @@ dsmr:
   
 sensor:
   - platform: dsmr
+    energy_delivered:
+      name: energy_delivered
+      accuracy_decimals: 3
     energy_delivered_tariff1:
       name: energy_delivered_tariff1
     energy_delivered_tariff2:
@@ -121,20 +130,24 @@ sensor:
     current_l3:
       name: current_l3
 
+    electricity_tariff_hu:
+      name: electricity_tariff_hu    
+
+
   - platform: uptime
-    name: "SlimmeLezer üzemidő"
+    name: "SlimmeLezer uptime"
     device_class: duration
 
 #  - platform: template
-#    name: "Pillanatnyi teljesítmény - hatásos eredő"
+#    name: power_balance
 #    id: power_balance
 #    unit_of_measurement: kW
 #    state_class: measurement
- #   device_class: power
- #   accuracy_decimals: 3      
+#    device_class: power
+#    accuracy_decimals: 3      
 
   - platform: wifi_signal
-    name: "P1 Wi-Fi jel"
+    name: wifi_signal
     update_interval: 60s                 
 
 text_sensor:
@@ -151,9 +164,6 @@ text_sensor:
       name: "Message long"
 #    electricity_failure_log:
 #      name: electricity_failure_log
-  - platform: dsmr
-    telegram:
-      name: "telegram"
 
 #script:
 #  - id: update_power_balance
