@@ -79,9 +79,14 @@ sensor:
       name: energy_delivered_tariff2
     energy_returned_tariff1:
       name: energy_returned_tariff1
+      id: energy_returned_tariff1
+      on_value:
+        - script.execute: update_energy_returned
     energy_returned_tariff2:
       name: energy_returned_tariff2
-      accuracy_decimals: 3
+      id: energy_returned_tariff2
+      on_value:
+        - script.execute: update_energy_returned
 
     power_delivered:
       name: power_delivered
@@ -138,6 +143,14 @@ sensor:
     name: "SlimmeLezer uptime"
     device_class: duration
 
+  - platform: template
+    name: energy_returned
+    id: energy_returned
+    unit_of_measurement: kWh
+    state_class: measurement
+    device_class: energy
+    accuracy_decimals: 1
+
 #  - platform: template
 #    name: power_balance
 #    id: power_balance
@@ -165,7 +178,13 @@ text_sensor:
 #    electricity_failure_log:
 #      name: electricity_failure_log
 
-#script:
+script:
+  - id: update_energy_returned
+    mode: single
+    then:
+      - lambda: |-
+          id(energy_returned).publish_state(id(energy_returned_tariff1).state + id(energy_returned_tariff2).state);      
+
 #  - id: update_power_balance
 #    mode: single
 #    then:
